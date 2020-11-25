@@ -84,6 +84,7 @@ type controllerMicroserviceConfig struct {
 	tcpAllocatorHost string
 	tcpAllocatorPort int
 	ecnId            int
+	viewerPort       int32
 }
 
 func filterControllerConfig(cfg controllerMicroserviceConfig) controllerMicroserviceConfig {
@@ -98,6 +99,9 @@ func filterControllerConfig(cfg controllerMicroserviceConfig) controllerMicroser
 	}
 	if cfg.httpPortAddr != "" && cfg.tcpPortAddr != "" {
 		cfg.portProvider = "caas"
+	}
+	if cfg.viewerPort <= 0 {
+		cfg.viewerPort = 80
 	}
 	return cfg
 }
@@ -127,7 +131,7 @@ func newControllerMicroservice(cfg controllerMicroserviceConfig) *microservice {
 				loadBalancerAddr: cfg.loadBalancerAddr,
 				ports: []int{
 					51121,
-					80,
+					int(cfg.viewerPort),
 				},
 			},
 		},
@@ -208,6 +212,20 @@ func newControllerMicroservice(cfg controllerMicroserviceConfig) *microservice {
 					{
 						Name:  "ECN_ID",
 						Value: strconv.Itoa(cfg.ecnId),
+					},
+					{
+						Name:  "VIEWER_PORT",
+						Value: strconv.Itoa(int(cfg.viewerPort)),
+					},
+				},
+				ports: []corev1.ContainerPort{
+					{
+						ContainerPort: 51121,
+						Protocol:      "TCP",
+					},
+					{
+						ContainerPort: cfg.viewerPort,
+						Protocol:      "TCP",
 					},
 				},
 				resources: v1.ResourceRequirements{

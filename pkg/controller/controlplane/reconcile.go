@@ -38,6 +38,7 @@ func (r *ReconcileControlPlane) reconcileIofogController() error {
 		tcpAllocatorHost: r.cp.Spec.Ingresses.TcpProxy.TcpAllocatorHost,
 		tcpAllocatorPort: r.cp.Spec.Ingresses.TcpProxy.TcpAllocatorPort,
 		ecnId:            r.cp.Spec.Ingresses.TcpProxy.EcnId,
+		viewerPort:       r.cp.Spec.Ingresses.ViewerPort,
 	})
 
 	// Service Account

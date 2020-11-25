@@ -79,9 +79,10 @@ type Ingress struct {
 }
 
 type Ingresses struct {
-	Router    RouterIngress `json:"router,omitempty"`
-	HttpProxy Ingress       `json:"httpProxy,omitempty"`
-	TcpProxy  TcpIngress    `json:"tcpProxy,omitempty"`
+	Router     RouterIngress `json:"router,omitempty"`
+	HttpProxy  Ingress       `json:"httpProxy,omitempty"`
+	TcpProxy   TcpIngress    `json:"tcpProxy,omitempty"`
+	ViewerPort int32         `json:"viewerPort,omitempty"`
 }
 
 // ControlPlaneStatus defines the observed state of ControlPlane

@@ -227,6 +227,10 @@ func newControllerMicroservice(cfg controllerMicroserviceConfig) *microservice {
 						ContainerPort: cfg.viewerPort,
 						Protocol:      "TCP",
 					},
+					{
+						Name:  "PID_BASE",
+						Value: "/tmp",
+					},
 				},
 				resources: v1.ResourceRequirements{
 					Limits: v1.ResourceList{
